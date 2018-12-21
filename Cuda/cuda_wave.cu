@@ -62,7 +62,7 @@ void init(float *values, int num_of_points){
    //fac = 2.0 * PI;
    //tmp = num_of_points;
    x = 1.0*(float)index / (float)num_of_points;
-   values[index] = sin (6.2831853 * x);
+   values[index] = sin (6.2831853f * x);
 }
 void init_line(void)
 {
@@ -89,11 +89,13 @@ void do_math(float *values, int num_of_points, int num_of_iterations)
    int index = blockIdx.x*blockDim.x + threadIdx.x;
    if (index < num_of_points && index > 0)
    {
-      float old_val, val, new_val;
+      float old_val, val, new_val,a,b;
+      a = 2.0;
+      b = -0.18;
       old_val = val = values[index];
-      for (int i = 0; i < num_of_iterations; i++)
+      for (int i = num_of_iterations; i >0; i--)
       {
-          new_val = (1.82 * val) - old_val;
+          new_val = (a * val) - old_val + ((b) *val);
           old_val = val;
           val = new_val;
       }
@@ -158,7 +160,7 @@ int main(int argc, char *argv[])
    update();
    printf("Printing final results...\n");
    printfinal();
-   //output_data(1,tpoints);
+   output_data(1,tpoints);
    printf("\nDone.\n\n");
    
    return 0;
